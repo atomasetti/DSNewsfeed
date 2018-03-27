@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		92CF239D166A6A51D6EF57AF /* Pods_DSNewsfeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7026002BAD250378A1076F14 /* Pods_DSNewsfeed.framework */; };
 		D02B4272205DC07B007F67E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4271205DC07B007F67E6 /* AppDelegate.swift */; };
-		D02B4274205DC07B007F67E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4273205DC07B007F67E6 /* ViewController.swift */; };
-		D02B4277205DC07B007F67E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D02B4275205DC07B007F67E6 /* Main.storyboard */; };
+		D02B4274205DC07B007F67E6 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4273205DC07B007F67E6 /* TableViewController.swift */; };
 		D02B4279205DC07B007F67E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D02B4278205DC07B007F67E6 /* Assets.xcassets */; };
 		D02B427C205DC07B007F67E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D02B427A205DC07B007F67E6 /* LaunchScreen.storyboard */; };
 		D02B4288205E497B007F67E6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4287205E497B007F67E6 /* Post.swift */; };
@@ -22,8 +21,7 @@
 		7EC902DA3EEC8F2221D05D58 /* Pods-DSNewsfeed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DSNewsfeed.release.xcconfig"; path = "Pods/Target Support Files/Pods-DSNewsfeed/Pods-DSNewsfeed.release.xcconfig"; sourceTree = "<group>"; };
 		D02B426E205DC07B007F67E6 /* DSNewsfeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSNewsfeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02B4271205DC07B007F67E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D02B4273205DC07B007F67E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		D02B4276205DC07B007F67E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D02B4273205DC07B007F67E6 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		D02B4278205DC07B007F67E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D02B427B205DC07B007F67E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D02B427D205DC07B007F67E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,8 +73,7 @@
 			children = (
 				D02B4286205E494C007F67E6 /* Model */,
 				D02B4271205DC07B007F67E6 /* AppDelegate.swift */,
-				D02B4273205DC07B007F67E6 /* ViewController.swift */,
-				D02B4275205DC07B007F67E6 /* Main.storyboard */,
+				D02B4273205DC07B007F67E6 /* TableViewController.swift */,
 				D02B4278205DC07B007F67E6 /* Assets.xcassets */,
 				D02B427A205DC07B007F67E6 /* LaunchScreen.storyboard */,
 				D02B427D205DC07B007F67E6 /* Info.plist */,
@@ -166,7 +163,6 @@
 			files = (
 				D02B427C205DC07B007F67E6 /* LaunchScreen.storyboard in Resources */,
 				D02B4279205DC07B007F67E6 /* Assets.xcassets in Resources */,
-				D02B4277205DC07B007F67E6 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,7 +230,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D02B4288205E497B007F67E6 /* Post.swift in Sources */,
-				D02B4274205DC07B007F67E6 /* ViewController.swift in Sources */,
+				D02B4274205DC07B007F67E6 /* TableViewController.swift in Sources */,
 				D02B428A205E4B3E007F67E6 /* Author.swift in Sources */,
 				D02B4272205DC07B007F67E6 /* AppDelegate.swift in Sources */,
 			);
@@ -243,14 +239,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		D02B4275205DC07B007F67E6 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D02B4276205DC07B007F67E6 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		D02B427A205DC07B007F67E6 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

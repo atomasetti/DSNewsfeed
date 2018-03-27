@@ -10,14 +10,17 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class ViewController: UIViewController {
+class TableViewController: UITableViewController {
+    
     var postsArray : [Post] = [Post]()
+    let cellIdentifier = "rootCells"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-
-        getJSONData(url : "https://www.dysiopen.com/v1/posts/public")
+        
+        getJSONData ()
+        tableView.register(PostCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
     override func didReceiveMemoryWarning() {
@@ -26,15 +29,17 @@ class ViewController: UIViewController {
     }
     
     func finishedDataRequest(){
-        for post in postsArray{
+        for post in postsArray {
             post.printPost()
         }
+        navigationItem.title = "Posts"
+        self.tableView.reloadData()
     }
-
+    
     //MARK: Http Request
     /***************************************************************/
-    func getJSONData(url : String) {
-        Alamofire.request(url, method:.get).responseJSON {
+    func getJSONData() {
+        Alamofire.request("https://www.dysiopen.com/v1/posts/public", method:.get).responseJSON {
             response in
             if response.result.isSuccess {
                 let JSONresponse : JSON = JSON(response.result.value!)
@@ -56,7 +61,6 @@ class ViewController: UIViewController {
         do {
             let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary
             
-            
             let JSONPosts = json?["posts"] as! [AnyObject]
             for post in JSONPosts {
                 
@@ -75,17 +79,50 @@ class ViewController: UIViewController {
                 
                 newPost.setAuthor(author: author)
                 postsArray.append(newPost)
-                
             }
         } catch let error as NSError {
             print("Failed to load: \(error.localizedDescription)")
         }
     }
     
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return postsArray.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = PostCell()
+        cell.titleLabel.text = postsArray[indexPath.row].title
+        return cell
+    }
+    
 }
 
-
-
+class PostCell : UITableViewCell {
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    let titleLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    func setupViews() {
+        addSubview(titleLabel)
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0" : titleLabel]))
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0" : titleLabel]))
+    }
+    
+}
 
 
 

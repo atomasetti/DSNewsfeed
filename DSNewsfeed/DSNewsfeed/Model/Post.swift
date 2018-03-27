@@ -8,7 +8,7 @@
 
 import Foundation
 class Post {
-    var author : Author 
+    var author : Author
     var title : String
     var description : String
     var createdDate : String
@@ -48,3 +48,4 @@ class Post {
     }
     
 }
+

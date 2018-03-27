@@ -27,3 +27,4 @@ class Author {
         self.profileImageUrl = profileImageUrl
     }
 }
+
