@@ -34,6 +34,7 @@ class TableViewController: UITableViewController {
         }
         navigationItem.title = "Posts"
         self.tableView.reloadData()
+        
     }
     
     //MARK: Http Request
@@ -92,6 +93,14 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostCell()
         cell.titleLabel.text = postsArray[indexPath.row].title
+        cell.descriptionLabel.text = postsArray[indexPath.row].description
+        cell.createdDateLabel.text = postsArray[indexPath.row].createdDate
+        cell.authorNameLabel.text = postsArray[indexPath.row].author.name
+        
+        if let url = URL(string: postsArray[indexPath.row].author.profileImageUrl), let data = try? Data(contentsOf: url), let image = UIImage(data: data){
+                cell.authorImage.contentMode = .scaleAspectFit
+                cell.authorImage.image = image
+        }
         return cell
     }
     
@@ -116,14 +125,60 @@ class PostCell : UITableViewCell {
         return label
     }()
     
+    let descriptionLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let createdDateLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let authorNameLabel : UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    let authorImage : UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    
     func setupViews() {
+        
+        //adding subviews to the table cell
         addSubview(titleLabel)
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0" : titleLabel]))
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[v0]|", options: NSLayoutFormatOptions(), metrics: nil, views: ["v0" : titleLabel]))
+        addSubview(descriptionLabel)
+        addSubview(createdDateLabel)
+        addSubview(authorImage)
+        addSubview(authorNameLabel)
+        
+        let viewsDictionary = ["titleLabel": titleLabel, "descriptionLabel": descriptionLabel, "createdDateLabel": createdDateLabel, "authorNameLabel": authorNameLabel, "authorImage" : authorImage]
+        
+        //Horizontal constraints
+        for item in viewsDictionary.keys {
+            
+            addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[\(item)]|", options: [], metrics: nil, views: viewsDictionary))
+        }
+        
+        //Vertical constraints
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[titleLabel]-[descriptionLabel]-[createdDateLabel]-[authorImage]-[authorNameLabel]-10-|", options: [], metrics: nil, views: viewsDictionary))
+        
     }
     
 }
-
 
 
 
