@@ -8,12 +8,12 @@
 
 import Foundation
 class Author {
-    var name : String
-    var profileImageUrl : String
+    private var name : String
+    private var profileImageUrl : String
     
     init() {
-        name = ""
-        profileImageUrl = ""
+        self.name = ""
+        self.profileImageUrl = ""
     }
     
     //MARK: Setter meathods
@@ -25,6 +25,17 @@ class Author {
     
     func setProfileImageUrl (profileImageUrl : String){
         self.profileImageUrl = profileImageUrl
+    }
+    
+    //MARK: Getter meathods
+    /***************************************************************/
+    
+    func getName () -> String{
+        return self.name
+    }
+    
+    func getProfileImageUrl () -> String{
+        return self.profileImageUrl
     }
 }
 

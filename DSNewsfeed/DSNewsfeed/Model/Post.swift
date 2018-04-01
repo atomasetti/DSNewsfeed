@@ -8,10 +8,10 @@
 
 import Foundation
 class Post {
-    var author : Author
-    var title : String
-    var description : String
-    var createdDate : String
+    private var author : Author
+    private var title : String
+    private var description : String
+    private var createdDate : String
     
     init(){
         author = Author()
@@ -23,8 +23,8 @@ class Post {
     func printPost() {
         print("Tile: \(title)")
         print("Description: \(description)")
-        print("Author: \(author.name)")
-        print("Author Image: \(author.profileImageUrl)")
+        print("Author: \(author.getName())")
+        print("Author Image: \(author.getProfileImageUrl)")
         print("Created Date: \(createdDate)\n")
     }
     
@@ -47,5 +47,23 @@ class Post {
         self.createdDate = createdDate
     }
     
+    //MARK: Getter meathods
+    /***************************************************************/
+    
+    func getAuthor() -> Author{
+        return self.author
+    }
+    
+    func getTitle() -> String{
+        return self.title
+    }
+    
+    func getDescription() -> String{
+        return self.description
+    }
+    
+    func getCreatedDate() -> String{
+        return self.createdDate
+    }
 }
 

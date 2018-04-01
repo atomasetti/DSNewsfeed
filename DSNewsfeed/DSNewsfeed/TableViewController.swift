@@ -17,28 +17,15 @@ class TableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
         getJSONData ()
         tableView.register(PostCell.self, forCellReuseIdentifier: cellIdentifier)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    func finishedDataRequest(){
-        for post in postsArray {
-            post.printPost()
-        }
-        navigationItem.title = "Posts"
-        self.tableView.reloadData()
-        
-    }
-    
-    //MARK: Http Request
-    /***************************************************************/
+    //Http Request
     func getJSONData() {
         Alamofire.request("https://www.dysiopen.com/v1/posts/public", method:.get).responseJSON {
             response in
@@ -68,7 +55,7 @@ class TableViewController: UITableViewController {
                 let newPost = Post()
                 newPost.setTitle(title: post["title"] as! String)
                 newPost.setDescription(description: post["description"] as! String)
-                newPost.setCreatedDate(createdDate: post["createdDate"] as! String)
+                newPost.setCreatedDate(createdDate: formatDate(strDate : post["createdDate"] as! String))
                 
                 let authorInfo = post["author"] as! NSDictionary
                 let author = Author()
@@ -86,24 +73,45 @@ class TableViewController: UITableViewController {
         }
     }
     
+    func finishedDataRequest(){
+        navigationItem.title = "Posts"
+        self.tableView.reloadData()
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return postsArray.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostCell()
-        cell.titleLabel.text = postsArray[indexPath.row].title
-        cell.descriptionLabel.text = postsArray[indexPath.row].description
-        cell.createdDateLabel.text = postsArray[indexPath.row].createdDate
-        cell.authorNameLabel.text = postsArray[indexPath.row].author.name
+        cell.titleLabel.text = postsArray[indexPath.row].getTitle()
+        cell.descriptionLabel.text = postsArray[indexPath.row].getDescription()
+        cell.createdDateLabel.text = postsArray[indexPath.row].getCreatedDate()
+        cell.authorNameLabel.text = postsArray[indexPath.row].getAuthor().getName()
         
-        if let url = URL(string: postsArray[indexPath.row].author.profileImageUrl), let data = try? Data(contentsOf: url), let image = UIImage(data: data){
+        if let url = URL(string: postsArray[indexPath.row].getAuthor().getProfileImageUrl()), let data = try? Data(contentsOf: url), let image = UIImage(data: data){
                 cell.authorImage.contentMode = .scaleAspectFit
                 cell.authorImage.image = image
         }
         return cell
     }
     
+    func formatDate(strDate : String) -> String {
+        
+        let dateFormatter = DateFormatter()
+        //Current date format
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ"
+        //Current time zone
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT+0:00")
+        //Convert String to Date
+        let date = dateFormatter.date(from: strDate)
+        
+        //New date format
+        dateFormatter.dateFormat = "MMM d, yyyy   h:m a"
+        //Convert date to correct format string
+        let newDate = dateFormatter.string(from: date!)
+        return newDate
+    }
 }
 
 class PostCell : UITableViewCell {
@@ -122,6 +130,8 @@ class PostCell : UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: label.font.pointSize + 1)
+        
         return label
     }()
     
@@ -155,7 +165,6 @@ class PostCell : UITableViewCell {
         return image
     }()
     
-    
     func setupViews() {
         
         //adding subviews to the table cell
@@ -169,15 +178,12 @@ class PostCell : UITableViewCell {
         
         //Horizontal constraints
         for item in viewsDictionary.keys {
-            
             addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[\(item)]|", options: [], metrics: nil, views: viewsDictionary))
         }
         
         //Vertical constraints
-        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[titleLabel]-[descriptionLabel]-[createdDateLabel]-[authorImage]-[authorNameLabel]-10-|", options: [], metrics: nil, views: viewsDictionary))
-        
+        addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-10-[titleLabel]-[descriptionLabel]-[createdDateLabel]-[authorNameLabel]-[authorImage]-10-|", options: [], metrics: nil, views: viewsDictionary))
     }
-    
 }
 
 
