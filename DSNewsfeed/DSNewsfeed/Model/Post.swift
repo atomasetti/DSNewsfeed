@@ -8,50 +8,41 @@
 
 import Foundation
 class Post {
-    private var author : Author
+    private var authorName : String
     private var title : String
-    private var description : String
+    private var description : String 
     private var createdDate : String
+    private var articleImage : String
     
     init(){
-        author = Author()
+        authorName = ""
         title = ""
         description = ""
         createdDate = ""
+        articleImage = ""
+    }
+    
+    init(title : String, description : String, createdDate : String, articleImage : String, authorName : String){
+        self.authorName = authorName
+        self.title = title
+        self.description = description
+        self.createdDate = createdDate
+        self.articleImage = articleImage
     }
     
     func printPost() {
         print("Tile: \(title)")
         print("Description: \(description)")
-        print("Author: \(author.getName())")
-        print("Author Image: \(author.getProfileImageUrl)")
-        print("Created Date: \(createdDate)\n")
-    }
-    
-    //MARK: Setter meathods
-    /***************************************************************/
-    
-    func setAuthor(author : Author){
-        self.author = author
-    }
-    
-    func setTitle(title : String){
-        self.title = title
-    }
-    
-    func setDescription(description : String){
-        self.description = description
-    }
-    
-    func setCreatedDate(createdDate : String){
-        self.createdDate = createdDate
+        print("Author: \(authorName)")
+        print("Created Date: \(createdDate)")
+        print("Article Image: \(articleImage)\n")
     }
     
     //MARK: Getter meathods
     /***************************************************************/
     
-    func getAuthor() -> Author{
-        return self.author
+    func getAuthorName() -> String{
+        return self.authorName
     }
     
     func getTitle() -> String{
@@ -64,6 +55,10 @@ class Post {
     
     func getCreatedDate() -> String{
         return self.createdDate
+    }
+    
+    func getarticleImage() -> String{
+        return self.articleImage
     }
 }
 
