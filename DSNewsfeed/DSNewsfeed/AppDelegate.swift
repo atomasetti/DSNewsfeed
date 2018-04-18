@@ -19,12 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         UINavigationBar.appearance().barTintColor = UIColor.gray
-        
         UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor : UIColor.white]
-        
         application.statusBarStyle = .lightContent
         
-        let controller = TableViewController()
+        let controller = ViewController()
         
         let navigationController = UINavigationController(rootViewController : controller)
         window?.rootViewController = navigationController

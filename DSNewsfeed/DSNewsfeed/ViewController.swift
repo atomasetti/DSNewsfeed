@@ -7,25 +7,59 @@
 //
 
 import UIKit
+import AsyncDisplayKit
 import Alamofire
 import SwiftyJSON
 
-class TableViewController: UITableViewController {
+class ViewController: ASViewController<ASDisplayNode> {
     
     var postsArray : [Post] = [Post]()
     let cellIdentifier = "PostCell"
     
+    var tableNode: ASTableNode
+    var activityIndicatorView: UIActivityIndicatorView!
+    var dataProvider: PostsTableDataProvider!
+
+    init() {
+        tableNode = ASTableNode()
+        super.init(node: tableNode)
+        dataProvider = PostsTableDataProvider()
+        dataProvider.tableNode = tableNode
+        tableNode.dataSource = dataProvider
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
+        activityIndicatorView.hidesWhenStopped = true
+        activityIndicatorView.sizeToFit()
+        
+        var refreshRect = activityIndicatorView.frame
+        refreshRect.origin = CGPoint(x: (view.bounds.size.width - activityIndicatorView.frame.width) / 2.0, y: activityIndicatorView.frame.midY)
+        
+        activityIndicatorView.frame = refreshRect
+        view.addSubview(activityIndicatorView)
+        
+        tableNode.view.allowsSelection = false
+        tableNode.view.separatorStyle = UITableViewCellSeparatorStyle.none
+        
+        
+        activityIndicatorView.startAnimating()
         self.navigationItem.title = "Posts"
         getJSONData ()
-        tableView.register(UINib(nibName: "PostTableViewCell", bundle: nil), forCellReuseIdentifier: cellIdentifier)
+        
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
+    func foundPostItems(_ posts: [Post]?) {
+            dataProvider.insertNewPostsInTableView(posts!)
+            activityIndicatorView.stopAnimating()
     }
-    
+
     //Http Request
     func getJSONData() {
         Alamofire.request("https://www.dysiopen.com/v1/posts/public", method:.get).responseJSON {
@@ -34,7 +68,7 @@ class TableViewController: UITableViewController {
                 let JSONresponse : JSON = JSON(value)
                 if let JOSNData = JSONresponse.rawString(){
                     self.ParsingJSONData(JSONData: JOSNData)
-                    self.tableView.reloadData()
+                    self.foundPostItems(self.postsArray)
                 }
             }
         }
@@ -44,7 +78,7 @@ class TableViewController: UITableViewController {
     func ParsingJSONData(JSONData : String) {
         if let data = JSONData.data(using: .utf8) {
             if let json = try? JSON(data: data) {
-            
+
                 for item in json["posts"].arrayValue {
 
                     let title = item["title"].stringValue
@@ -61,36 +95,15 @@ class TableViewController: UITableViewController {
                         let date = item["createdDate"].stringValue
                         let newPost = Post(title : title, description : description, createdDate : date, articleImage : articleImage, authorName : authorName)
                         postsArray.append(newPost)
-                        
+
                     }
                 }
             }
         }
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return postsArray.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? PostTableCell else {
-            return UITableViewCell()
-        }
-        cell.titleLabel.text = postsArray[indexPath.row].getTitle()
-        cell.descriptionLabel.text = postsArray[indexPath.row].getDescription()
-        cell.createdDateLabel.text = postsArray[indexPath.row].getCreatedDate()
-        cell.authorNameLabel.text = postsArray[indexPath.row].getAuthorName()
-    
-        if let url = URL(string: postsArray[indexPath.row].getarticleImage()), let data = try? Data(contentsOf: url), let image = UIImage(data: data){
-                cell.articleImageView.image = image
-            cell.articleImageView.autoresizesSubviews = true
-        }
-        return cell
-    }
-    
     func formatDate(strDate : String) -> String? {
-        
+
         let dateFormatter = DateFormatter()
         //Current date format
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSZ"

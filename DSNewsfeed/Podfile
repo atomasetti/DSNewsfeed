@@ -8,5 +8,6 @@ target 'DSNewsfeed' do
   # Pods for DSNewsfeed
     pod 'Alamofire'
     pod 'SwiftyJSON'
+    pod 'AsyncDisplayKit', '2.0'
 
 end

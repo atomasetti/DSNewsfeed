@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		92CF239D166A6A51D6EF57AF /* Pods_DSNewsfeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7026002BAD250378A1076F14 /* Pods_DSNewsfeed.framework */; };
 		D02B4272205DC07B007F67E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4271205DC07B007F67E6 /* AppDelegate.swift */; };
-		D02B4274205DC07B007F67E6 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4273205DC07B007F67E6 /* TableViewController.swift */; };
+		D02B4274205DC07B007F67E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4273205DC07B007F67E6 /* ViewController.swift */; };
 		D02B4279205DC07B007F67E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D02B4278205DC07B007F67E6 /* Assets.xcassets */; };
 		D02B427C205DC07B007F67E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D02B427A205DC07B007F67E6 /* LaunchScreen.storyboard */; };
 		D02B4288205E497B007F67E6 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D02B4287205E497B007F67E6 /* Post.swift */; };
-		D0D587692079560200687292 /* PostTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D587682079560200687292 /* PostTableCell.swift */; };
 		D0D5876F2079C30B00687292 /* PostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D0D5876E2079C30B00687292 /* PostTableViewCell.xib */; };
+		D0D5877120856C2B00687292 /* PostsTableDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D5877020856C2B00687292 /* PostsTableDataProvider.swift */; };
+		D0D587732086B97200687292 /* PostCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D587722086B97200687292 /* PostCellNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,13 +23,14 @@
 		7EC902DA3EEC8F2221D05D58 /* Pods-DSNewsfeed.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DSNewsfeed.release.xcconfig"; path = "Pods/Target Support Files/Pods-DSNewsfeed/Pods-DSNewsfeed.release.xcconfig"; sourceTree = "<group>"; };
 		D02B426E205DC07B007F67E6 /* DSNewsfeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DSNewsfeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D02B4271205DC07B007F67E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D02B4273205DC07B007F67E6 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		D02B4273205DC07B007F67E6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D02B4278205DC07B007F67E6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D02B427B205DC07B007F67E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D02B427D205DC07B007F67E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D02B4287205E497B007F67E6 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
-		D0D587682079560200687292 /* PostTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableCell.swift; sourceTree = "<group>"; };
 		D0D5876E2079C30B00687292 /* PostTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostTableViewCell.xib; sourceTree = "<group>"; };
+		D0D5877020856C2B00687292 /* PostsTableDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsTableDataProvider.swift; sourceTree = "<group>"; };
+		D0D587722086B97200687292 /* PostCellNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellNode.swift; sourceTree = "<group>"; };
 		E8F3719D992E734A2E26BF31 /* Pods-DSNewsfeed.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DSNewsfeed.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DSNewsfeed/Pods-DSNewsfeed.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -74,8 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				D02B4286205E494C007F67E6 /* Model */,
-				D0D587682079560200687292 /* PostTableCell.swift */,
-				D02B4273205DC07B007F67E6 /* TableViewController.swift */,
+				D02B4273205DC07B007F67E6 /* ViewController.swift */,
+				D0D587722086B97200687292 /* PostCellNode.swift */,
 				D02B4271205DC07B007F67E6 /* AppDelegate.swift */,
 				D02B4278205DC07B007F67E6 /* Assets.xcassets */,
 				D02B427A205DC07B007F67E6 /* LaunchScreen.storyboard */,
@@ -88,6 +90,7 @@
 		D02B4286205E494C007F67E6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D0D5877020856C2B00687292 /* PostsTableDataProvider.swift */,
 				D02B4287205E497B007F67E6 /* Post.swift */,
 			);
 			path = Model;
@@ -214,11 +217,17 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-DSNewsfeed/Pods-DSNewsfeed-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AsyncDisplayKit/AsyncDisplayKit.framework",
+				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
+				"${BUILT_PRODUCTS_DIR}/PINRemoteImage/PINRemoteImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AsyncDisplayKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINRemoteImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,10 +242,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D0D587692079560200687292 /* PostTableCell.swift in Sources */,
 				D02B4288205E497B007F67E6 /* Post.swift in Sources */,
-				D02B4274205DC07B007F67E6 /* TableViewController.swift in Sources */,
+				D02B4274205DC07B007F67E6 /* ViewController.swift in Sources */,
+				D0D5877120856C2B00687292 /* PostsTableDataProvider.swift in Sources */,
 				D02B4272205DC07B007F67E6 /* AppDelegate.swift in Sources */,
+				D0D587732086B97200687292 /* PostCellNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
