@@ -11,16 +11,16 @@ import AsyncDisplayKit
 
 class PostsTableDataProvider: NSObject, ASTableDataSource {
     
-    var posts: [Post]?
+    var posts : [Post] = [Post]()
     weak var tableNode: ASTableNode?
     
     func tableNode(_ tableNode: ASTableNode, numberOfRowsInSection section: Int) -> Int {
-        return posts?.count ?? 0
+        return posts.count
     }
     
     func tableNode(_ tableNode: ASTableNode, nodeBlockForRowAt indexPath: IndexPath) -> ASCellNodeBlock {
         
-        let post = posts![indexPath.row]
+        let post = posts[indexPath.row]
         let cellNodeBlock = { () -> ASCellNode in
             return PostCellNode(post: post)
         }
@@ -29,7 +29,6 @@ class PostsTableDataProvider: NSObject, ASTableDataSource {
     
     func insertNewPostsInTableView(_ posts: [Post]) {
         self.posts = posts
-        
         let section = 0
         var indexPaths = [IndexPath]()
         posts.enumerated().forEach { (row, group) in

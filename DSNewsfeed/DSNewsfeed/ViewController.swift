@@ -17,14 +17,14 @@ class ViewController: ASViewController<ASDisplayNode> {
     let cellIdentifier = "PostCell"
     
     var tableNode: ASTableNode
-    var activityIndicatorView: UIActivityIndicatorView!
-    var dataProvider: PostsTableDataProvider!
+    var activityIndicatorView: UIActivityIndicatorView?
+    var dataProvider: PostsTableDataProvider?
 
     init() {
         tableNode = ASTableNode()
         super.init(node: tableNode)
         dataProvider = PostsTableDataProvider()
-        dataProvider.tableNode = tableNode
+        dataProvider?.tableNode = tableNode
         tableNode.dataSource = dataProvider
     }
 
@@ -36,28 +36,33 @@ class ViewController: ASViewController<ASDisplayNode> {
         super.viewDidLoad()
         
         activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .gray)
-        activityIndicatorView.hidesWhenStopped = true
-        activityIndicatorView.sizeToFit()
+        guard let activityIndicator = activityIndicatorView else {
+            return
+        }
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.sizeToFit()
         
-        var refreshRect = activityIndicatorView.frame
-        refreshRect.origin = CGPoint(x: (view.bounds.size.width - activityIndicatorView.frame.width) / 2.0, y: activityIndicatorView.frame.midY)
+        var refreshRect = activityIndicator.frame
+        refreshRect.origin = CGPoint(x: (view.bounds.size.width - (activityIndicator.frame.width)) / 2.0, y: (activityIndicator.frame.midY))
         
-        activityIndicatorView.frame = refreshRect
-        view.addSubview(activityIndicatorView)
+        activityIndicator.frame = refreshRect
+        view.addSubview(activityIndicator)
         
         tableNode.view.allowsSelection = false
         tableNode.view.separatorStyle = UITableViewCellSeparatorStyle.none
         
-        
-        activityIndicatorView.startAnimating()
+        activityIndicatorView?.startAnimating()
         self.navigationItem.title = "Posts"
         getJSONData ()
         
     }
     
     func foundPostItems(_ posts: [Post]?) {
-            dataProvider.insertNewPostsInTableView(posts!)
-            activityIndicatorView.stopAnimating()
+        guard let postsUnwrap = posts else {
+            return
+        }
+        dataProvider?.insertNewPostsInTableView(postsUnwrap)
+        activityIndicatorView?.stopAnimating()
     }
 
     //Http Request
@@ -85,12 +90,12 @@ class ViewController: ASViewController<ASDisplayNode> {
                     let description = item["description"].stringValue
                     let articleImage = item["images"]["Box1440"]["url"].stringValue
                     let authorName = item["author"]["postSourceName"].stringValue
-                    //if date is not nill after formatting
+                    //if date is not nil after formatting
                     if let date = formatDate(strDate : item["createdDate"].stringValue) {
                         let newPost = Post(title : title, description : description, createdDate : date, articleImage : articleImage, authorName : authorName)
                         postsArray.append(newPost)
                     }
-                    //if date is nill after formatting
+                    //if date is nil after formatting
                     else {
                         let date = item["createdDate"].stringValue
                         let newPost = Post(title : title, description : description, createdDate : date, articleImage : articleImage, authorName : authorName)

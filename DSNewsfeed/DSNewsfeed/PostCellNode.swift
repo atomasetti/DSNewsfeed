@@ -9,30 +9,34 @@
 import Foundation
 import AsyncDisplayKit
 
-fileprivate var articleImageSize:CGFloat = 160
 
 final class PostCellNode: ASCellNode {
     
-    fileprivate var articleImageView: ASNetworkImageNode!
-    fileprivate var titleLabel: ASTextNode!
-    fileprivate var authorNameLabel: ASTextNode!
-    fileprivate var descriptionLabel: ASTextNode!
-    fileprivate var createdDateLabel: ASTextNode!
+    private var articleImageView: ASNetworkImageNode?
+    private var titleLabel: ASTextNode?
+    private var descriptionLabel: ASTextNode?
+    private var authorNameLabel: ASTextNode?
+    private var createdDateLabel: ASTextNode?
     
     init(post: Post) {
-        super.init()
-        
-        articleImageView = ASNetworkImageNode()
-        articleImageView.clipsToBounds = true
-        articleImageView?.url = URL(string: post.getarticleImage())
-        
-        titleLabel = createLayerBackedTextNode(attributedString: NSAttributedString(string: post.getTitle(), attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir-Medium", size: 13)!, NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
 
-        descriptionLabel = createLayerBackedTextNode(attributedString: NSAttributedString(string: post.getDescription(), attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir-Medium", size: 12)!, NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
+        super.init()
+        articleImageView = ASNetworkImageNode()
+        articleImageView?.clipsToBounds = true
+        articleImageView?.url = URL(string: post.getarticleImage())
+
+        titleLabel = ASTextNode()
+        descriptionLabel = ASTextNode()
+        authorNameLabel = ASTextNode()
+        createdDateLabel = ASTextNode()
         
-        authorNameLabel = createLayerBackedTextNode(attributedString: NSAttributedString(string: post.getAuthorName(), attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir-Medium", size: 12)!, NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
+        titleLabel = createLayerBackedTextNode(attributedString: NSAttributedString(string: post.getTitle(), attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir-Heavy", size: 17) as Any, NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
+
+        descriptionLabel = createLayerBackedTextNode(attributedString: NSAttributedString(string: post.getDescription(), attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir-Medium", size: 16) as Any, NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
         
-        createdDateLabel = createLayerBackedTextNode(attributedString: NSAttributedString(string: post.getCreatedDate(), attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir-Medium", size: 12)!, NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
+        authorNameLabel = createLayerBackedTextNode(attributedString: NSAttributedString(string: post.getAuthorName(), attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir-Medium", size: 16) as Any, NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
+        
+        createdDateLabel = createLayerBackedTextNode(attributedString: NSAttributedString(string: post.getCreatedDate(), attributes: [NSAttributedStringKey.font: UIFont(name: "Avenir-Medium", size: 16) as Any, NSAttributedStringKey.foregroundColor: UIColor.darkGray]))
         
         automaticallyManagesSubnodes = true
     }
@@ -47,12 +51,31 @@ final class PostCellNode: ASCellNode {
     
     override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
         
-        articleImageView.style.preferredSize = CGSize(width: articleImageSize, height: articleImageSize)
+        let verticalStack = ASStackLayoutSpec.vertical()
+        guard let title = titleLabel, let description = descriptionLabel,let authorName = authorNameLabel, let createdDate = createdDateLabel, let articleImage = articleImageView else {
+            return verticalStack
+        }
         
-        let stack = ASStackLayoutSpec.vertical()
-        stack.children = [titleLabel, descriptionLabel, authorNameLabel, createdDateLabel, articleImageView]
+        let cellWidth = constrainedSize.max.width
+        articleImageView?.style.preferredSize = CGSize(width: cellWidth, height: cellWidth)
+        
+        //Formatting article image
+        let articleImageViewLayout = ASAbsoluteLayoutSpec(children: [articleImage])
+        let articleImageViewStack = ASStackLayoutSpec.vertical()
+        articleImageViewStack.alignItems = ASStackLayoutAlignItems.stretch
+        articleImageViewStack.children = [articleImageViewLayout]
+        
+        //Adding buffer
+        let insets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        let titleLayout = ASInsetLayoutSpec(insets: UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10), child: title)
+        let descriptionLayout = ASInsetLayoutSpec(insets: UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10), child: description)
+        let createdDateLayout = ASInsetLayoutSpec(insets: insets, child: createdDate)
+        let authorNameLayout = ASInsetLayoutSpec(insets: insets, child: authorName)
+        let articleImageLayout = ASInsetLayoutSpec(insets: insets, child: articleImageViewStack)
 
-        return stack
+        verticalStack.children = [titleLayout, descriptionLayout, authorNameLayout, createdDateLayout, articleImageLayout]
+        return verticalStack
+
     }
     
 }
